@@ -1,4 +1,4 @@
-import { Address6 } from 'ip-address'
+const Address6 = require('ip-address').Address6
 
 const { KafkaJSConnectionError, KafkaJSNonRetriableError } = require('../errors')
 const ConnectionPool = require('../network/connectionPool')
