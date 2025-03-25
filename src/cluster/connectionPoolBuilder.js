@@ -1,3 +1,5 @@
+import { Address6 } from 'ip-address'
+
 const { KafkaJSConnectionError, KafkaJSNonRetriableError } = require('../errors')
 const ConnectionPool = require('../network/connectionPool')
 
@@ -63,6 +65,21 @@ module.exports = ({
     }
   }
 
+  const parseIPv6 = address => {
+    try {
+      const address6 = new Address6(address)
+
+      logger.debug(`parseIPv6.address6.isValid => ${address6.isValid()}`)
+      logger.debug(
+        `parseIPv6.address6.correctForm => ${address6.isValid() ? address6.correctForm() : ''}`
+      )
+
+      return address6.isValid() ? address6.correctForm() : null
+    } catch (error) {
+      return null
+    }
+  }
+
   const getBrokers = async () => {
     let list
 
@@ -89,10 +106,16 @@ module.exports = ({
     build: async ({ host, port, rack } = {}) => {
       if (!host) {
         const list = await getBrokers()
-
         const randomBroker = list[index++ % list.length]
 
         host = randomBroker.split(':')[0]
+
+        logger.debug(`connectionPoolBuilder.randomBroker => ${randomBroker}`)
+        parseIPv6(randomBroker)
+        logger.debug(`connectionPoolBuilder.host => ${host}`)
+        parseIPv6(host)
+        logger.debug(`connectionPoolBuilder.port => ${port}`)
+
         port = Number(randomBroker.split(':')[1])
       }
 

@@ -74,7 +74,9 @@
     "typescript": "^3.8.3",
     "uuid": "^3.3.2"
   },
-  "dependencies": {},
+  "dependencies": {
+    "ip-address": "^10.0.1"
+  },
   "lint-staged": {
     "*.js": [
       "prettier --write",
