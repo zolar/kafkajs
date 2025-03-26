@@ -69,9 +69,9 @@ module.exports = ({
     try {
       const address6 = new Address6(address)
 
-      logger.debug(`parseIPv6.address6.isValid => ${address6.isValid()}`)
-      logger.debug(
-        `parseIPv6.address6.correctForm => ${address6.isValid() ? address6.correctForm() : ''}`
+      console.log(`🔌🛜 parseIPv6.address6.isValid => ${address6.isValid()}`)
+      console.log(
+        `🔌🛜 parseIPv6.address6.correctForm => ${address6.isValid() ? address6.correctForm() : ''}`
       )
 
       return address6.isValid() ? address6.correctForm() : null
@@ -110,11 +110,11 @@ module.exports = ({
 
         host = randomBroker.split(':')[0]
 
-        logger.debug(`connectionPoolBuilder.randomBroker => ${randomBroker}`)
+        console.log(`🔌🛜 connectionPoolBuilder.randomBroker => ${randomBroker}`)
         parseIPv6(randomBroker)
-        logger.debug(`connectionPoolBuilder.host => ${host}`)
+        console.log(`🔌🛜 connectionPoolBuilder.host => ${host}`)
         parseIPv6(host)
-        logger.debug(`connectionPoolBuilder.port => ${port}`)
+        console.log(`🔌🛜 connectionPoolBuilder.port => ${port}`)
 
         port = Number(randomBroker.split(':')[1])
       }
