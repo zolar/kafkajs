@@ -1,3 +1,5 @@
+const Address6 = require('ip-address').Address6
+
 const createSocket = require('./socket')
 const createRequest = require('../protocol/request')
 const Decoder = require('../protocol/decoder')
@@ -159,6 +161,21 @@ module.exports = class Connection {
     return CONNECTED_STATUS.includes(this.connectionStatus)
   }
 
+  parseIPv6(address) {
+    try {
+      const address6 = new Address6(address)
+
+      console.log(`🔌🛜 parseIPv6.address6.isValid => ${address6.isValid()}`)
+      console.log(
+        `🔌🛜 parseIPv6.address6.correctForm => ${address6.isValid() ? address6.correctForm() : ''}`
+      )
+
+      return address6.isValid() ? address6.correctForm() : null
+    } catch (error) {
+      return null
+    }
+  }
+
   /**
    * @public
    * @returns {Promise}
@@ -234,6 +251,11 @@ module.exports = class Connection {
         ssl: !!this.ssl,
         sasl: !!this.sasl,
       })
+
+      console.log(`🔌☢️ connection.host => ${this.host}`)
+      console.log(`🔌☢️ connection.port => ${this.port}`)
+
+      this.parseIPv6(this.host)
 
       try {
         timeoutId = setTimeout(onTimeout, this.connectionTimeout)
